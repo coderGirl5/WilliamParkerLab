@@ -1,12 +1,7 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { RouterModule, Routes } from '@angular/router';
 import { IntroComponent } from './components/intro/intro.component';
 import { ResearchComponent } from './components/research/research.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { InprogressComponent } from './components/inprogress/inprogress.component';
 import { AboutComponent } from './components/about/about.component';
 import { Research2015Component } from './components/research2015/research2015.component';
@@ -16,27 +11,28 @@ import { Research2020Component } from './components/research2020/research2020.co
 import { Research2021Component } from './components/research2021/research2021.component';
 import { ResearchHistoricalComponent } from './components/research-historical/research-historical.component';
 
+
+const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: 'intro' },
+  { path: 'research', component: ResearchComponent,
+     children: [
+    { path: '', redirectTo: '2021', pathMatch: 'full' },
+    { path: '2015', component: Research2015Component },
+    { path: '2017', component: Research2017Component },
+    { path: '2018', component: Research2018Component},
+    { path: '2020', component: Research2020Component},
+    { path: '2021', component: Research2021Component},
+    { path: 'historical', component: ResearchHistoricalComponent}
+  ]
+
+},
+  { path: 'inprogress', component: InprogressComponent},
+  { path: 'about', component: AboutComponent },
+  { path: 'intro', component: IntroComponent}
+];
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    IntroComponent,
-    ResearchComponent,
-    FooterComponent,
-    InprogressComponent,
-    AboutComponent,
-    Research2015Component,
-    Research2017Component,
-    Research2018Component,
-    Research2020Component,
-    Research2021Component,
-    ResearchHistoricalComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppModule { }
+export class AppRoutingModule { }
